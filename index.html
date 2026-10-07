@@ -97,6 +97,17 @@
       margin-bottom: 18px;
     }
 
+    .add-btn:hover {
+      background: #146c43;
+    }
+
+    .edit-btn {
+      background: #17365d;
+      color: white;
+      padding: 7px 12px;
+      font-size: 12px;
+    }
+
     .message {
       margin-top: 15px;
       padding: 12px;
@@ -160,17 +171,17 @@
       font-weight: 600;
     }
 
+    .empty {
+      text-align: center;
+      padding: 25px;
+      color: #777;
+    }
+
     .footer {
       text-align: center;
       color: #777;
       font-size: 13px;
       padding: 20px;
-    }
-
-    .empty {
-      text-align: center;
-      padding: 25px;
-      color: #777;
     }
   </style>
 </head>
@@ -184,7 +195,8 @@
 
   <div class="container">
 
-    <!-- ATTENDANCE -->
+    <!-- MONTHLY ATTENDANCE -->
+
     <div class="card">
 
       <h2>MONTHLY ATTENDANCE</h2>
@@ -212,12 +224,16 @@
 
       </div>
 
-      <div id="attendanceMessage" class="message"></div>
+      <div
+        id="attendanceMessage"
+        class="message"
+      ></div>
 
     </div>
 
 
     <!-- EMPLOYEE MANAGEMENT -->
+
     <div class="card">
 
       <h2>EMPLOYEE MANAGEMENT</h2>
@@ -232,15 +248,14 @@
       <div
         id="employeeMessage"
         class="message"
-      >
-        Loading employees...
-      </div>
+      ></div>
 
       <div class="table-wrapper">
 
         <table>
 
           <thead>
+
             <tr>
               <th>Employee ID</th>
               <th>Employee Name</th>
@@ -248,12 +263,16 @@
               <th>Status</th>
               <th>Action</th>
             </tr>
+
           </thead>
 
           <tbody id="employeeTableBody">
 
             <tr>
-              <td colspan="5" class="empty">
+              <td
+                colspan="5"
+                class="empty"
+              >
                 Loading employees...
               </td>
             </tr>
@@ -270,16 +289,14 @@
 
 
   <div class="footer">
-    VKS &nbsp;|&nbsp; Attendance Management System
+    VKS | Attendance Management System
   </div>
 
 
   <script>
 
     /*
-      ==============================
       WEBHOOK URLs
-      ==============================
     */
 
     const ATTENDANCE_WEBHOOK =
@@ -290,9 +307,7 @@
 
 
     /*
-      ==============================
-      ATTENDANCE REPORT
-      ==============================
+      SEND ATTENDANCE REPORT
     */
 
     async function sendAttendanceReport() {
@@ -305,7 +320,8 @@
 
       if (!fileInput.files.length) {
 
-        message.className = "message error";
+        message.className =
+          "message error";
 
         message.textContent =
           "Please select an Excel attendance file first.";
@@ -319,9 +335,14 @@
       const formData =
         new FormData();
 
-      formData.append("data0", file, file.name);
+      formData.append(
+        "data0",
+        file,
+        file.name
+      );
 
-      message.className = "message loading";
+      message.className =
+        "message loading";
 
       message.textContent =
         "Sending attendance report...";
@@ -338,9 +359,12 @@
           );
 
         if (!response.ok) {
+
           throw new Error(
-            "Server returned " + response.status
+            "Server returned " +
+            response.status
           );
+
         }
 
         message.className =
@@ -367,9 +391,7 @@
 
 
     /*
-      ==============================
       LOAD EMPLOYEES
-      ==============================
     */
 
     async function loadEmployees() {
@@ -385,13 +407,6 @@
         );
 
       try {
-
-        message.className =
-          "message loading";
-
-        message.textContent =
-          "Loading employees...";
-
 
         const response =
           await fetch(
@@ -410,7 +425,6 @@
             }
           );
 
-
         if (!response.ok) {
 
           throw new Error(
@@ -420,63 +434,60 @@
 
         }
 
-
         const result =
           await response.json();
-
 
         console.log(
           "Employee API response:",
           result
         );
 
-
-        /*
-          n8n Respond to Webhook
-          returns the employee rows.
-        */
-
-        let employees = result;
-
-
-        /*
-          Some n8n responses can be wrapped
-          inside a data/result property.
-        */
+        let employees =
+          result;
 
         if (!Array.isArray(employees)) {
 
-          if (Array.isArray(result.data)) {
-            employees = result.data;
-          }
+          if (
+            Array.isArray(result.data)
+          ) {
 
-          else if (Array.isArray(result.result)) {
-            employees = result.result;
-          }
+            employees =
+              result.data;
 
-          else if (
+          } else if (
+            Array.isArray(result.result)
+          ) {
+
+            employees =
+              result.result;
+
+          } else if (
             Array.isArray(result.items)
           ) {
-            employees = result.items;
-          }
 
-          else {
+            employees =
+              result.items;
+
+          } else {
+
             throw new Error(
               "Employee data format not recognised."
             );
+
           }
 
         }
 
-
         tableBody.innerHTML = "";
-
 
         if (employees.length === 0) {
 
           tableBody.innerHTML = `
             <tr>
-              <td colspan="5" class="empty">
+              <td
+                colspan="5"
+                class="empty"
+              >
                 No employees found.
               </td>
             </tr>
@@ -490,7 +501,6 @@
               const row =
                 document.createElement("tr");
 
-
               const employeeId =
                 employee["Employee ID"] || "";
 
@@ -503,12 +513,10 @@
               const active =
                 employee["Active"] || "";
 
-
               const statusClass =
                 String(active).toLowerCase() === "yes"
                   ? "active"
                   : "inactive";
-
 
               row.innerHTML = `
 
@@ -530,6 +538,7 @@
 
                 <td>
                   <button
+                    class="edit-btn"
                     onclick='editEmployee(${JSON.stringify(employee)})'
                   >
                     Edit
@@ -538,7 +547,6 @@
 
               `;
 
-
               tableBody.appendChild(row);
 
             }
@@ -546,10 +554,8 @@
 
         }
 
-
         message.style.display =
           "none";
-
 
       } catch (error) {
 
@@ -558,17 +564,18 @@
           error
         );
 
-
         tableBody.innerHTML = `
 
           <tr>
-            <td colspan="5" class="empty">
+            <td
+              colspan="5"
+              class="empty"
+            >
               Unable to load employees
             </td>
           </tr>
 
         `;
-
 
         message.className =
           "message error";
@@ -582,42 +589,113 @@
 
 
     /*
-      ==============================
-      HTML SAFETY
-      ==============================
-    */
-
-    function escapeHtml(value) {
-
-      return String(value)
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;")
-        .replace(/'/g, "&#039;");
-
-    }
-
-
-    /*
-      ==============================
       ADD EMPLOYEE
-      ==============================
     */
 
-    function addEmployee() {
+    async function addEmployee() {
 
-      alert(
-        "Add Employee functionality will be connected next."
-      );
+      const employeeId =
+        prompt("Enter Employee ID:");
+
+      if (!employeeId) {
+        return;
+      }
+
+      const employeeName =
+        prompt("Enter Employee Name:");
+
+      if (!employeeName) {
+        return;
+      }
+
+      const email =
+        prompt("Enter Employee Email:");
+
+      if (!email) {
+        return;
+      }
+
+      const message =
+        document.getElementById(
+          "employeeMessage"
+        );
+
+      message.className =
+        "message loading";
+
+      message.textContent =
+        "Adding employee...";
+
+      try {
+
+        const response =
+          await fetch(
+            EMPLOYEE_WEBHOOK,
+            {
+              method: "POST",
+
+              headers: {
+                "Content-Type":
+                  "application/json"
+              },
+
+              body: JSON.stringify({
+
+                action:
+                  "add_employee",
+
+                employeeId:
+                  employeeId,
+
+                employeeName:
+                  employeeName,
+
+                email:
+                  email
+
+              })
+            }
+          );
+
+        if (!response.ok) {
+
+          throw new Error(
+            "Server returned " +
+            response.status
+          );
+
+        }
+
+        await response.json();
+
+        message.className =
+          "message success";
+
+        message.textContent =
+          "Employee added successfully.";
+
+        loadEmployees();
+
+      } catch (error) {
+
+        console.error(
+          "Add employee error:",
+          error
+        );
+
+        message.className =
+          "message error";
+
+        message.textContent =
+          "Unable to add employee.";
+
+      }
 
     }
 
 
     /*
-      ==============================
       EDIT EMPLOYEE
-      ==============================
     */
 
     function editEmployee(employee) {
@@ -635,9 +713,43 @@
 
 
     /*
-      ==============================
+      HTML SAFETY
+    */
+
+    function escapeHtml(value) {
+
+      return String(value)
+
+        .replace(
+          /&/g,
+          "&amp;"
+        )
+
+        .replace(
+          /</g,
+          "&lt;"
+        )
+
+        .replace(
+          />/g,
+          "&gt;"
+        )
+
+        .replace(
+          /"/g,
+          "&quot;"
+        )
+
+        .replace(
+          /'/g,
+          "&#039;"
+        );
+
+    }
+
+
+    /*
       LOAD EMPLOYEES WHEN PAGE OPENS
-      ==============================
     */
 
     window.addEventListener(
