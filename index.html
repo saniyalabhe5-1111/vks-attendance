@@ -125,6 +125,11 @@
       font-weight: bold;
     }
 
+    .status-inactive {
+      color: #b42318;
+      font-weight: bold;
+    }
+
     .footer {
       text-align: center;
       color: #777;
@@ -150,6 +155,18 @@
       color: #b42318;
       display: none;
       font-weight: bold;
+    }
+
+    .loading-message {
+      color: #666;
+      padding: 20px 0;
+      text-align: center;
+    }
+
+    .empty-message {
+      color: #777;
+      padding: 20px 0;
+      text-align: center;
     }
   </style>
 </head>
@@ -211,7 +228,7 @@
       <h2>Employee Management</h2>
 
       <p class="card-description">
-        Add, edit or deactivate employees without changing the backend workflow.
+        Manage employees from the Employee Master.
       </p>
 
       <button
@@ -235,24 +252,9 @@
         <tbody id="employeeTable">
 
           <tr>
-            <td>1</td>
-            <td>Pallavi Gadge</td>
-            <td>-</td>
-            <td class="status-active">Active</td>
-          </tr>
-
-          <tr>
-            <td>8</td>
-            <td>Amit Shahu</td>
-            <td>amitshahu@vksca.co.in</td>
-            <td class="status-active">Active</td>
-          </tr>
-
-          <tr>
-            <td>25</td>
-            <td>Neha Varma</td>
-            <td>nehavarma@vksca.co.in</td>
-            <td class="status-active">Active</td>
+            <td colspan="4" class="loading-message">
+              Loading employees...
+            </td>
           </tr>
 
         </tbody>
@@ -270,6 +272,17 @@
 
   <script>
 
+    // Attendance webhook
+    const ATTENDANCE_WEBHOOK =
+      "https://traderemedies.app.n8n.cloud/webhook/25ff7283-d6a0-4cbc-b06e-9788fdde0145";
+
+
+    // Employee management webhook
+    const EMPLOYEE_WEBHOOK =
+      "https://traderemedies.app.n8n.cloud/webhook/d7cb856a-50cd-4f0c-8264-0c81150b4ab5";
+
+
+    // Send attendance report
     async function sendReport() {
 
       const fileInput =
@@ -300,7 +313,7 @@
       try {
 
         const response = await fetch(
-          "https://traderemedies.app.n8n.cloud/webhook/25ff7283-d6a0-4cbc-b06e-9788fdde0145",
+          ATTENDANCE_WEBHOOK,
           {
             method: "POST",
             body: formData
@@ -324,13 +337,120 @@
     }
 
 
+    // Load employees from Employee Master
+    async function loadEmployees() {
+
+      const employeeTable =
+        document.getElementById("employeeTable");
+
+      try {
+
+        const response = await fetch(
+          EMPLOYEE_WEBHOOK,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+              action: "get_employees"
+            })
+          }
+        );
+
+        if (!response.ok) {
+          throw new Error("Could not load employees");
+        }
+
+        const employees = await response.json();
+
+        employeeTable.innerHTML = "";
+
+        if (!Array.isArray(employees) || employees.length === 0) {
+
+          employeeTable.innerHTML = `
+            <tr>
+              <td colspan="4" class="empty-message">
+                No employees found.
+              </td>
+            </tr>
+          `;
+
+          return;
+        }
+
+        employees.forEach(employee => {
+
+          const row =
+            document.createElement("tr");
+
+          const employeeId =
+            employee["Employee ID"] || "";
+
+          const employeeName =
+            employee["Employee Name"] || "";
+
+          const email =
+            employee["Email"] || "-";
+
+          const active =
+            employee["Active"] || "";
+
+          const statusClass =
+            active.toLowerCase() === "yes"
+              ? "status-active"
+              : "status-inactive";
+
+          const statusText =
+            active.toLowerCase() === "yes"
+              ? "Active"
+              : "Inactive";
+
+          row.innerHTML = `
+            <td>${employeeId}</td>
+            <td>${employeeName}</td>
+            <td>${email || "-"}</td>
+            <td class="${statusClass}">
+              ${statusText}
+            </td>
+          `;
+
+          employeeTable.appendChild(row);
+
+        });
+
+      } catch (error) {
+
+        console.error(error);
+
+        employeeTable.innerHTML = `
+          <tr>
+            <td colspan="4" class="empty-message">
+              Unable to load employees.
+            </td>
+          </tr>
+        `;
+
+      }
+
+    }
+
+
+    // Add employee button
     function addEmployee() {
 
       alert(
-        "Employee management will be connected to the Employee Master next."
+        "Add Employee functionality will be connected next."
       );
 
     }
+
+
+    // Load employee list when website opens
+    window.addEventListener(
+      "DOMContentLoaded",
+      loadEmployees
+    );
 
   </script>
 
