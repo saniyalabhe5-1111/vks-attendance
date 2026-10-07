@@ -3,37 +3,35 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
   <title>VKS Attendance Management System</title>
 
   <style>
     * {
       box-sizing: border-box;
-      margin: 0;
-      padding: 0;
+      font-family: Arial, sans-serif;
     }
 
     body {
-      font-family: Arial, Helvetica, sans-serif;
-      background: #f4f7fb;
-      color: #1f2937;
+      margin: 0;
+      background: #f4f6f8;
+      color: #222;
     }
 
-    .header {
-      background: #17365d;
+    header {
+      background: #1f3c5b;
       color: white;
       padding: 22px 40px;
     }
 
-    .header h1 {
+    header h1 {
+      margin: 0;
       font-size: 25px;
-      font-weight: 600;
     }
 
-    .header p {
-      margin-top: 5px;
+    header p {
+      margin: 6px 0 0;
       font-size: 14px;
-      opacity: 0.85;
+      opacity: 0.9;
     }
 
     .container {
@@ -45,70 +43,71 @@
     .card {
       background: white;
       border-radius: 10px;
-      padding: 28px;
+      padding: 25px;
       margin-bottom: 25px;
-      box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+      box-shadow: 0 2px 10px rgba(0,0,0,0.08);
     }
 
-    .card h2 {
-      font-size: 20px;
-      color: #17365d;
-      margin-bottom: 20px;
+    h2 {
+      margin-top: 0;
+      color: #1f3c5b;
+      font-size: 21px;
     }
 
     .upload-box {
-      border: 2px dashed #9bb7d4;
+      border: 2px dashed #9aa9b8;
       border-radius: 10px;
-      padding: 35px;
+      padding: 40px 20px;
       text-align: center;
-      background: #f8fbff;
+      background: #fafcfd;
     }
 
     .upload-box p {
-      margin-bottom: 15px;
-      color: #555;
+      margin: 8px 0;
+      color: #666;
     }
 
     input[type="file"] {
-      margin: 10px 0 20px;
+      margin: 15px 0;
     }
 
     button {
       border: none;
       border-radius: 6px;
-      padding: 11px 20px;
+      padding: 11px 18px;
       cursor: pointer;
       font-size: 14px;
-      font-weight: 600;
     }
 
-    .send-btn {
-      background: #17365d;
+    .primary-btn {
+      background: #1f3c5b;
       color: white;
     }
 
-    .send-btn:hover {
-      background: #0f2947;
+    .primary-btn:hover {
+      background: #162d44;
     }
 
-    .add-btn {
-      background: #198754;
-      color: white;
-      margin-bottom: 18px;
-    }
-
-    .add-btn:hover {
-      background: #146c43;
+    .secondary-btn {
+      background: #e8edf2;
+      color: #1f3c5b;
+      margin-right: 8px;
     }
 
     .edit-btn {
-      background: #17365d;
-      color: white;
+      background: #e8edf2;
+      color: #1f3c5b;
       padding: 7px 12px;
-      font-size: 12px;
     }
 
-    .message {
+    .deactivate-btn {
+      background: #f5e6e6;
+      color: #a33;
+      padding: 7px 12px;
+      margin-left: 5px;
+    }
+
+    .status {
       margin-top: 15px;
       padding: 12px;
       border-radius: 6px;
@@ -116,652 +115,676 @@
     }
 
     .success {
-      display: block;
-      background: #e7f7ed;
-      color: #146c43;
+      background: #e8f5e9;
+      color: #26733a;
     }
 
     .error {
-      display: block;
-      background: #fdecec;
-      color: #b42318;
+      background: #fdeaea;
+      color: #a33;
     }
 
-    .loading {
-      display: block;
-      background: #eef4ff;
-      color: #17365d;
-    }
-
-    .table-wrapper {
+    .table-container {
       overflow-x: auto;
     }
 
     table {
       width: 100%;
       border-collapse: collapse;
-      margin-top: 5px;
+      margin-top: 15px;
     }
 
-    th {
-      background: #17365d;
-      color: white;
+    th,
+    td {
       padding: 12px;
+      border-bottom: 1px solid #ddd;
       text-align: left;
       font-size: 14px;
     }
 
-    td {
-      padding: 11px 12px;
-      border-bottom: 1px solid #e5e7eb;
-      font-size: 14px;
-    }
-
-    tr:hover {
-      background: #f8fafc;
+    th {
+      background: #f0f3f6;
+      color: #1f3c5b;
     }
 
     .active {
-      color: #198754;
-      font-weight: 600;
+      color: #268044;
+      font-weight: bold;
     }
 
     .inactive {
-      color: #dc3545;
-      font-weight: 600;
+      color: #a33;
+      font-weight: bold;
     }
 
-    .empty {
-      text-align: center;
-      padding: 25px;
-      color: #777;
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 15px;
     }
 
-    .footer {
-      text-align: center;
-      color: #777;
-      font-size: 13px;
-      padding: 20px;
+    .loading {
+      color: #666;
+      padding: 15px 0;
     }
   </style>
 </head>
 
 <body>
 
-  <div class="header">
-    <h1>VKS Attendance Management System</h1>
-    <p>Monthly Employee Attendance & Reporting</p>
-  </div>
+<header>
+  <h1>VKS Attendance Management System</h1>
+  <p>Monthly Attendance & Employee Management</p>
+</header>
 
-  <div class="container">
+<div class="container">
 
-    <!-- MONTHLY ATTENDANCE -->
+  <!-- MONTHLY ATTENDANCE -->
+  <div class="card">
 
-    <div class="card">
+    <h2>MONTHLY ATTENDANCE</h2>
 
-      <h2>MONTHLY ATTENDANCE</h2>
+    <div class="upload-box">
 
-      <div class="upload-box">
+      <p><strong>Upload Monthly Attendance Excel File</strong></p>
+      <p>Drag & drop your Excel file here or select it from your computer.</p>
 
-        <p>
-          Upload the monthly attendance Excel file
-        </p>
+      <input
+        type="file"
+        id="attendanceFile"
+        accept=".xls,.xlsx"
+      >
 
-        <input
-          type="file"
-          id="attendanceFile"
-          accept=".xls,.xlsx"
-        >
+      <br>
 
-        <br>
-
-        <button
-          class="send-btn"
-          onclick="sendAttendanceReport()"
-        >
-          SEND REPORT
-        </button>
-
-      </div>
-
-      <div
-        id="attendanceMessage"
-        class="message"
-      ></div>
+      <button
+        class="primary-btn"
+        onclick="sendAttendanceReport()"
+      >
+        SEND REPORT
+      </button>
 
     </div>
 
+    <div id="attendanceStatus" class="status"></div>
 
-    <!-- EMPLOYEE MANAGEMENT -->
+  </div>
 
-    <div class="card">
+
+  <!-- EMPLOYEE MANAGEMENT -->
+  <div class="card">
+
+    <div class="section-header">
 
       <h2>EMPLOYEE MANAGEMENT</h2>
 
       <button
-        class="add-btn"
+        class="primary-btn"
         onclick="addEmployee()"
       >
         + ADD EMPLOYEE
       </button>
 
-      <div
-        id="employeeMessage"
-        class="message"
-      ></div>
+    </div>
 
-      <div class="table-wrapper">
+    <div id="employeeLoading" class="loading">
+      Loading employees...
+    </div>
 
-        <table>
+    <div class="table-container">
 
-          <thead>
+      <table id="employeeTable">
 
-            <tr>
-              <th>Employee ID</th>
-              <th>Employee Name</th>
-              <th>Email</th>
-              <th>Status</th>
-              <th>Action</th>
-            </tr>
+        <thead>
+          <tr>
+            <th>Employee ID</th>
+            <th>Employee Name</th>
+            <th>Email</th>
+            <th>Status</th>
+            <th>Action</th>
+          </tr>
+        </thead>
 
-          </thead>
+        <tbody id="employeeTableBody"></tbody>
 
-          <tbody id="employeeTableBody">
-
-            <tr>
-              <td
-                colspan="5"
-                class="empty"
-              >
-                Loading employees...
-              </td>
-            </tr>
-
-          </tbody>
-
-        </table>
-
-      </div>
+      </table>
 
     </div>
 
+    <div id="employeeStatus" class="status"></div>
+
   </div>
 
-
-  <div class="footer">
-    VKS | Attendance Management System
-  </div>
+</div>
 
 
-  <script>
+<script>
 
-    /*
-      WEBHOOK URLs
-    */
+  // =====================================================
+  // WEBHOOK URLS
+  // =====================================================
 
-    const ATTENDANCE_WEBHOOK =
-      "https://traderemedies.app.n8n.cloud/webhook/25ff7283-d6a0-4cbc-b06e-9788fdde0145";
+  const ATTENDANCE_WEBHOOK =
+    "https://traderemedies.app.n8n.cloud/webhook/25ff7283-d6a0-4cbc-b06e-9788fdde0145";
 
-    const EMPLOYEE_WEBHOOK =
-      "https://traderemedies.app.n8n.cloud/webhook/d7cb856a-50cd-4f0c-8264-0c81150b4ab5";
+  const EMPLOYEE_WEBHOOK =
+    "https://traderemedies.app.n8n.cloud/webhook/d7cb856a-50cd-4f0c-8264-0c81150b4ab5";
 
 
-    /*
-      SEND ATTENDANCE REPORT
-    */
+  // =====================================================
+  // ATTENDANCE REPORT
+  // =====================================================
 
-    async function sendAttendanceReport() {
+  async function sendAttendanceReport() {
 
-      const fileInput =
-        document.getElementById("attendanceFile");
+    const fileInput = document.getElementById("attendanceFile");
+    const statusBox = document.getElementById("attendanceStatus");
 
-      const message =
-        document.getElementById("attendanceMessage");
+    if (!fileInput.files.length) {
 
-      if (!fileInput.files.length) {
-
-        message.className =
-          "message error";
-
-        message.textContent =
-          "Please select an Excel attendance file first.";
-
-        return;
-      }
-
-      const file =
-        fileInput.files[0];
-
-      const formData =
-        new FormData();
-
-      formData.append(
-        "data0",
-        file,
-        file.name
+      showStatus(
+        statusBox,
+        "Please select an Excel file first.",
+        "error"
       );
 
-      message.className =
-        "message loading";
-
-      message.textContent =
-        "Sending attendance report...";
-
-      try {
-
-        const response =
-          await fetch(
-            ATTENDANCE_WEBHOOK,
-            {
-              method: "POST",
-              body: formData
-            }
-          );
-
-        if (!response.ok) {
-
-          throw new Error(
-            "Server returned " +
-            response.status
-          );
-
-        }
-
-        message.className =
-          "message success";
-
-        message.textContent =
-          "Attendance report sent successfully.";
-
-        fileInput.value = "";
-
-      } catch (error) {
-
-        console.error(error);
-
-        message.className =
-          "message error";
-
-        message.textContent =
-          "Unable to send attendance report.";
-
-      }
-
+      return;
     }
 
+    const file = fileInput.files[0];
 
-    /*
-      LOAD EMPLOYEES
-    */
+    const formData = new FormData();
 
-    async function loadEmployees() {
+    formData.append("data0", file);
 
-      const tableBody =
-        document.getElementById(
-          "employeeTableBody"
-        );
+    showStatus(
+      statusBox,
+      "Uploading attendance report...",
+      "success"
+    );
 
-      const message =
-        document.getElementById(
-          "employeeMessage"
-        );
+    try {
 
-      try {
-
-        const response =
-          await fetch(
-            EMPLOYEE_WEBHOOK,
-            {
-              method: "POST",
-
-              headers: {
-                "Content-Type":
-                  "application/json"
-              },
-
-              body: JSON.stringify({
-                action: "get_employees"
-              })
-            }
-          );
-
-        if (!response.ok) {
-
-          throw new Error(
-            "Server returned " +
-            response.status
-          );
-
+      const response = await fetch(
+        ATTENDANCE_WEBHOOK,
+        {
+          method: "POST",
+          body: formData
         }
+      );
 
-        const result =
-          await response.json();
+      if (!response.ok) {
+        throw new Error("Attendance upload failed.");
+      }
 
-        console.log(
-          "Employee API response:",
-          result
-        );
+      showStatus(
+        statusBox,
+        "Attendance report sent successfully.",
+        "success"
+      );
 
-        let employees =
-          result;
+    } catch (error) {
 
-        if (!Array.isArray(employees)) {
+      console.error(error);
 
-          if (
-            Array.isArray(result.data)
-          ) {
+      showStatus(
+        statusBox,
+        "Error sending attendance report. Please try again.",
+        "error"
+      );
+    }
+  }
 
-            employees =
-              result.data;
 
-          } else if (
-            Array.isArray(result.result)
-          ) {
+  // =====================================================
+  // LOAD EMPLOYEES
+  // =====================================================
 
-            employees =
-              result.result;
+  async function loadEmployees() {
 
-          } else if (
-            Array.isArray(result.items)
-          ) {
+    const tableBody =
+      document.getElementById("employeeTableBody");
 
-            employees =
-              result.items;
+    const loading =
+      document.getElementById("employeeLoading");
 
-          } else {
+    tableBody.innerHTML = "";
 
-            throw new Error(
-              "Employee data format not recognised."
-            );
+    loading.style.display = "block";
 
-          }
+    try {
 
+      const response = await fetch(
+        EMPLOYEE_WEBHOOK,
+        {
+          method: "POST",
+
+          headers: {
+            "Content-Type": "application/json"
+          },
+
+          body: JSON.stringify({
+            action: "get_employees"
+          })
         }
+      );
 
-        tableBody.innerHTML = "";
+      if (!response.ok) {
+        throw new Error("Could not load employees.");
+      }
 
-        if (employees.length === 0) {
+      const result = await response.json();
 
-          tableBody.innerHTML = `
-            <tr>
-              <td
-                colspan="5"
-                class="empty"
-              >
-                No employees found.
-              </td>
-            </tr>
-          `;
+      let employees = [];
 
-        } else {
+      if (Array.isArray(result)) {
 
-          employees.forEach(
-            function(employee) {
+        employees = result;
 
-              const row =
-                document.createElement("tr");
+      } else if (Array.isArray(result.data)) {
 
-              const employeeId =
-                employee["Employee ID"] || "";
+        employees = result.data;
 
-              const employeeName =
-                employee["Employee Name"] || "";
+      } else if (Array.isArray(result.result)) {
 
-              const email =
-                employee["Email"] || "";
+        employees = result.result;
 
-              const active =
-                employee["Active"] || "";
+      } else if (Array.isArray(result.items)) {
 
-              const statusClass =
-                String(active).toLowerCase() === "yes"
-                  ? "active"
-                  : "inactive";
+        employees = result.items;
+      }
 
-              row.innerHTML = `
+      tableBody.innerHTML = "";
 
-                <td>
-                  ${escapeHtml(employeeId)}
-                </td>
+      employees.forEach(employee => {
 
-                <td>
-                  ${escapeHtml(employeeName)}
-                </td>
+        const row = document.createElement("tr");
 
-                <td>
-                  ${escapeHtml(email)}
-                </td>
+        const employeeId =
+          employee["Employee ID"] ||
+          employee.employeeId ||
+          employee.EmployeeID ||
+          "";
 
-                <td class="${statusClass}">
-                  ${escapeHtml(active)}
-                </td>
+        const employeeName =
+          employee["Employee Name"] ||
+          employee.employeeName ||
+          employee.EmployeeName ||
+          "";
 
-                <td>
-                  <button
-                    class="edit-btn"
-                    onclick='editEmployee(${JSON.stringify(employee)})'
-                  >
-                    Edit
-                  </button>
-                </td>
+        const email =
+          employee["Email"] ||
+          employee.email ||
+          "";
 
-              `;
+        const active =
+          employee["Active"] ||
+          employee.active ||
+          "Yes";
 
-              tableBody.appendChild(row);
+        const statusClass =
+          String(active).toLowerCase() === "yes"
+            ? "active"
+            : "inactive";
 
-            }
-          );
+        row.innerHTML = `
 
-        }
+          <td>${escapeHtml(employeeId)}</td>
 
-        message.style.display =
-          "none";
+          <td>${escapeHtml(employeeName)}</td>
 
-      } catch (error) {
+          <td>${escapeHtml(email)}</td>
 
-        console.error(
-          "Employee loading error:",
-          error
-        );
+          <td class="${statusClass}">
+            ${escapeHtml(active)}
+          </td>
 
-        tableBody.innerHTML = `
+          <td>
 
-          <tr>
-            <td
-              colspan="5"
-              class="empty"
+            <button
+              class="edit-btn"
+              onclick="editEmployee(
+                '${escapeJs(employeeId)}',
+                '${escapeJs(employeeName)}',
+                '${escapeJs(email)}',
+                '${escapeJs(active)}'
+              )"
             >
-              Unable to load employees
-            </td>
-          </tr>
+              Edit
+            </button>
+
+            <button
+              class="deactivate-btn"
+              onclick="deactivateEmployee(
+                '${escapeJs(employeeId)}',
+                '${escapeJs(employeeName)}',
+                '${escapeJs(email)}'
+              )"
+            >
+              Deactivate
+            </button>
+
+          </td>
 
         `;
 
-        message.className =
-          "message error";
+        tableBody.appendChild(row);
 
-        message.textContent =
-          "Unable to load employees.";
+      });
 
-      }
+      loading.style.display = "none";
 
+    } catch (error) {
+
+      console.error(error);
+
+      loading.innerText =
+        "Unable to load employees.";
+
+      showStatus(
+        document.getElementById("employeeStatus"),
+        "Could not load employee list.",
+        "error"
+      );
+    }
+  }
+
+
+  // =====================================================
+  // ADD EMPLOYEE
+  // =====================================================
+
+  async function addEmployee() {
+
+    const employeeId =
+      prompt("Enter Employee ID:");
+
+    if (employeeId === null || employeeId.trim() === "") {
+      return;
     }
 
+    const employeeName =
+      prompt("Enter Employee Name:");
 
-    /*
-      ADD EMPLOYEE
-    */
+    if (employeeName === null || employeeName.trim() === "") {
+      return;
+    }
 
-    async function addEmployee() {
+    const email =
+      prompt("Enter Employee Email:");
 
-      const employeeId =
-        prompt("Enter Employee ID:");
+    if (email === null) {
+      return;
+    }
 
-      if (!employeeId) {
-        return;
-      }
+    try {
 
-      const employeeName =
-        prompt("Enter Employee Name:");
+      const response = await fetch(
+        EMPLOYEE_WEBHOOK,
+        {
+          method: "POST",
 
-      if (!employeeName) {
-        return;
-      }
+          headers: {
+            "Content-Type": "application/json"
+          },
 
-      const email =
-        prompt("Enter Employee Email:");
+          body: JSON.stringify({
 
-      if (!email) {
-        return;
-      }
+            action: "add_employee",
 
-      const message =
-        document.getElementById(
-          "employeeMessage"
-        );
+            employeeId: employeeId.trim(),
 
-      message.className =
-        "message loading";
+            employeeName: employeeName.trim(),
 
-      message.textContent =
-        "Adding employee...";
+            email: email.trim()
 
-      try {
-
-        const response =
-          await fetch(
-            EMPLOYEE_WEBHOOK,
-            {
-              method: "POST",
-
-              headers: {
-                "Content-Type":
-                  "application/json"
-              },
-
-              body: JSON.stringify({
-
-                action:
-                  "add_employee",
-
-                employeeId:
-                  employeeId,
-
-                employeeName:
-                  employeeName,
-
-                email:
-                  email
-
-              })
-            }
-          );
-
-        if (!response.ok) {
-
-          throw new Error(
-            "Server returned " +
-            response.status
-          );
-
+          })
         }
-
-        await response.json();
-
-        message.className =
-          "message success";
-
-        message.textContent =
-          "Employee added successfully.";
-
-        loadEmployees();
-
-      } catch (error) {
-
-        console.error(
-          "Add employee error:",
-          error
-        );
-
-        message.className =
-          "message error";
-
-        message.textContent =
-          "Unable to add employee.";
-
-      }
-
-    }
-
-
-    /*
-      EDIT EMPLOYEE
-    */
-
-    function editEmployee(employee) {
-
-      alert(
-        "Edit Employee functionality will be connected next."
       );
 
-      console.log(
-        "Employee selected:",
-        employee
+      if (!response.ok) {
+        throw new Error("Could not add employee.");
+      }
+
+      showStatus(
+        document.getElementById("employeeStatus"),
+        "Employee added successfully.",
+        "success"
       );
 
+      await loadEmployees();
+
+    } catch (error) {
+
+      console.error(error);
+
+      showStatus(
+        document.getElementById("employeeStatus"),
+        "Error adding employee.",
+        "error"
+      );
+    }
+  }
+
+
+  // =====================================================
+  // EDIT EMPLOYEE
+  // =====================================================
+
+  async function editEmployee(
+    employeeId,
+    employeeName,
+    email,
+    active
+  ) {
+
+    const newName =
+      prompt(
+        "Enter Employee Name:",
+        employeeName
+      );
+
+    if (newName === null || newName.trim() === "") {
+      return;
     }
 
+    const newEmail =
+      prompt(
+        "Enter Employee Email:",
+        email
+      );
 
-    /*
-      HTML SAFETY
-    */
-
-    function escapeHtml(value) {
-
-      return String(value)
-
-        .replace(
-          /&/g,
-          "&amp;"
-        )
-
-        .replace(
-          /</g,
-          "&lt;"
-        )
-
-        .replace(
-          />/g,
-          "&gt;"
-        )
-
-        .replace(
-          /"/g,
-          "&quot;"
-        )
-
-        .replace(
-          /'/g,
-          "&#039;"
-        );
-
+    if (newEmail === null) {
+      return;
     }
 
+    const newActive =
+      prompt(
+        "Active? Enter Yes or No:",
+        active || "Yes"
+      );
 
-    /*
-      LOAD EMPLOYEES WHEN PAGE OPENS
-    */
+    if (newActive === null) {
+      return;
+    }
 
-    window.addEventListener(
-      "DOMContentLoaded",
-      function() {
+    try {
 
-        loadEmployees();
+      const response = await fetch(
+        EMPLOYEE_WEBHOOK,
+        {
+          method: "POST",
 
+          headers: {
+            "Content-Type": "application/json"
+          },
+
+          body: JSON.stringify({
+
+            action: "edit_employee",
+
+            employeeId: employeeId,
+
+            employeeName: newName.trim(),
+
+            email: newEmail.trim(),
+
+            active: newActive.trim()
+
+          })
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("Could not edit employee.");
       }
-    );
 
-  </script>
+      showStatus(
+        document.getElementById("employeeStatus"),
+        "Employee updated successfully.",
+        "success"
+      );
+
+      await loadEmployees();
+
+    } catch (error) {
+
+      console.error(error);
+
+      showStatus(
+        document.getElementById("employeeStatus"),
+        "Error updating employee.",
+        "error"
+      );
+    }
+  }
+
+
+  // =====================================================
+  // DEACTIVATE EMPLOYEE
+  // =====================================================
+
+  async function deactivateEmployee(
+    employeeId,
+    employeeName,
+    email
+  ) {
+
+    const confirmDeactivate =
+      confirm(
+        "Are you sure you want to deactivate " +
+        employeeName +
+        "?"
+      );
+
+    if (!confirmDeactivate) {
+      return;
+    }
+
+    try {
+
+      const response = await fetch(
+        EMPLOYEE_WEBHOOK,
+        {
+          method: "POST",
+
+          headers: {
+            "Content-Type": "application/json"
+          },
+
+          body: JSON.stringify({
+
+            action: "edit_employee",
+
+            employeeId: employeeId,
+
+            employeeName: employeeName,
+
+            email: email,
+
+            active: "No"
+
+          })
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("Could not deactivate employee.");
+      }
+
+      showStatus(
+        document.getElementById("employeeStatus"),
+        "Employee deactivated successfully.",
+        "success"
+      );
+
+      await loadEmployees();
+
+    } catch (error) {
+
+      console.error(error);
+
+      showStatus(
+        document.getElementById("employeeStatus"),
+        "Error deactivating employee.",
+        "error"
+      );
+    }
+  }
+
+
+  // =====================================================
+  // STATUS MESSAGE
+  // =====================================================
+
+  function showStatus(
+    element,
+    message,
+    type
+  ) {
+
+    element.innerText = message;
+
+    element.className =
+      "status " + type;
+
+    element.style.display = "block";
+  }
+
+
+  // =====================================================
+  // SECURITY / TEXT HELPERS
+  // =====================================================
+
+  function escapeHtml(value) {
+
+    return String(value ?? "")
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#039;");
+  }
+
+
+  function escapeJs(value) {
+
+    return String(value ?? "")
+      .replace(/\\/g, "\\\\")
+      .replace(/'/g, "\\'")
+      .replace(/\n/g, "\\n")
+      .replace(/\r/g, "\\r");
+  }
+
+
+  // =====================================================
+  // LOAD EMPLOYEES WHEN PAGE OPENS
+  // =====================================================
+
+  loadEmployees();
+
+</script>
 
 </body>
 </html>
