@@ -1,1 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+  <title>VKS Attendance Management</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      background: #f4f6f9;
+      color: #222;
+    }
+
+    .header {
+      background: #17365d;
+      color: white;
+      padding: 22px 40px;
+    }
+
+    .header h1 {
+      font-size: 26px;
+    }
+
+    .header p {
+      margin-top: 5px;
+      font-size: 14px;
+      opacity: 0.85;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 35px auto;
+      padding: 0 20px;
+    }
+
+    .card {
+      background: white;
+      border-radius: 12px;
+      padding: 28px;
+      margin-bottom: 25px;
+      box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+    }
+
+    .card h2 {
+      color: #17365d;
+      margin-bottom: 8px;
+    }
+
+    .card-description {
+      color: #666;
+      font-size: 14px;
+      margin-bottom: 20px;
+    }
+
+    .upload-box {
+      border: 2px dashed #9aa7b5;
+      border-radius: 10px;
+      padding: 45px 20px;
+      text-align: center;
+      background: #fafbfc;
+    }
+
+    .upload-box p {
+      margin-bottom: 15px;
+      color: #555;
+    }
+
+    input[type="file"] {
+      margin-bottom: 18px;
+    }
+
+    .button {
+      border: none;
+      border-radius: 7px;
+      padding: 12px 25px;
+      font-size: 15px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .send-button {
+      background: #17365d;
+      color: white;
+    }
+
+    .send-button:hover {
+      background: #0f2846;
+    }
+
+    .employee-button {
+      background: #2e75b6;
+      color: white;
+      margin-bottom: 20px;
+    }
+
+    .employee-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+    }
+
+    .employee-table th,
+    .employee-table td {
+      padding: 12px;
+      border-bottom: 1px solid #ddd;
+      text-align: left;
+      font-size: 14px;
+    }
+
+    .employee-table th {
+      background: #f0f3f7;
+      color: #17365d;
+    }
+
+    .status-active {
+      color: #198754;
+      font-weight: bold;
+    }
+
+    .footer {
+      text-align: center;
+      color: #777;
+      font-size: 13px;
+      padding: 20px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="header">
+    <h1>VKS Attendance Management System</h1>
+    <p>Monthly Employee Attendance & Reporting</p>
+  </div>
+
+  <div class="container">
+
+    <!-- Attendance Upload -->
+    <div class="card">
+      <h2>Monthly Attendance</h2>
+
+      <p class="card-description">
+        Upload the monthly attendance Excel file to generate and send employee reports.
+      </p>
+
+      <div class="upload-box">
+
+        <p><strong>Drag & Drop your Excel file here</strong></p>
+        <p>or select a file from your computer</p>
+
+        <input
+          type="file"
+          id="attendanceFile"
+          accept=".xls,.xlsx"
+        >
+
+        <br>
+
+        <button
+          class="button send-button"
+          onclick="sendReport()"
+        >
+          SEND REPORT
+        </button>
+
+      </div>
+    </div>
+
+
+    <!-- Employee Management -->
+    <div class="card">
+
+      <h2>Employee Management</h2>
+
+      <p class="card-description">
+        Add, edit or deactivate employees without changing the backend workflow.
+      </p>
+
+      <button
+        class="button employee-button"
+        onclick="addEmployee()"
+      >
+        + ADD EMPLOYEE
+      </button>
+
+      <table class="employee-table">
+
+        <thead>
+          <tr>
+            <th>Employee ID</th>
+            <th>Employee Name</th>
+            <th>Email</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+
+        <tbody id="employeeTable">
+
+          <tr>
+            <td>1</td>
+            <td>Pallavi Gadge</td>
+            <td>-</td>
+            <td class="status-active">Active</td>
+          </tr>
+
+          <tr>
+            <td>8</td>
+            <td>Amit Shahu</td>
+            <td>amitshahu@vksca.co.in</td>
+            <td class="status-active">Active</td>
+          </tr>
+
+          <tr>
+            <td>25</td>
+            <td>Neha Varma</td>
+            <td>nehavarma@vksca.co.in</td>
+            <td class="status-active">Active</td>
+          </tr>
+
+        </tbody>
+
+      </table>
+
+    </div>
+
+  </div>
+
+  <div class="footer">
+    VKS Attendance Management System
+  </div>
+
+
+  <script>
+
+    function sendReport() {
+
+      const file =
+        document.getElementById("attendanceFile").files[0];
+
+      if (!file) {
+
+        alert("Please select an attendance Excel file.");
+
+        return;
+      }
+
+      alert(
+        "File selected successfully. Backend connection will be added next."
+      );
+    }
+
+
+    function addEmployee() {
+
+      alert(
+        "Employee management will be connected to the Employee Master next."
+      );
+    }
+
+  </script>
+
+</body>
+</html>
